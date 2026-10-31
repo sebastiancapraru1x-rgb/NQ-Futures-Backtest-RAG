@@ -107,14 +107,6 @@ python app.py
 - **LLM**: Defaults to `gpt2` (~500MB, CPU-compatible). Swap to `TinyLlama` or `phi-2` for better quality if you have more RAM.
 - No GPU required for this portfolio version.
 
-## Resume / LinkedIn Bullets
-
-- Built a RAG system for NQ futures backtest data using PyTorch, FAISS, and Hugging Face Transformers
-- Implemented hybrid retrieval: dense embeddings (sentence-transformers) + sparse TF-IDF with metadata filtering
-- Designed lazy-loading architecture so AI models download only at inference time, not import
-- Created end-to-end pipeline: CSV ingestion → chunking → vector indexing → LLM-generated answers with citations
-- Demonstrates PyTorch tensor operations, vector search, and production-ready RAG architecture
-
 ## License
 
 MIT
