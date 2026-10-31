@@ -1,4 +1,4 @@
-# NQ Futures Backtest RAG — Portfolio Project
+# NQ Futures Backtest RAG
 
 A Retrieval-Augmented Generation (RAG) system for NQ (Nasdaq-100) futures backtest data.
 Built with **PyTorch**, **FAISS**, **sentence-transformers**, and **Hugging Face Transformers**.
