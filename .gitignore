@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# Vector store index (large binary files)
+vector_store_index/
+
+# Data outputs (can be regenerated)
+data/chunks.json
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db

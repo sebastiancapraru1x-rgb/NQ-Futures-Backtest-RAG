@@ -1,0 +1,3 @@
+strategy,years,timeframe,total_return_pct,win_rate_pct,sharpe_ratio,max_drawdown_pct,avg_r_per_trade,total_trades,avg_contracts,best_regime,worst_regime,best_month,worst_month
+"IFVG_CISD_EMA","2025-2026","1min",284.0,56.94,1.70,0.95,1.35,72,1,"low-VIX (09:32 session)","high-VIX","March 2025","September 2025"
+"IFVG_CISD_EMA","2023-2024","1min",-46.0,37.89,-0.5,15.0,-0.48,95,1,"mixed-vol","high-VIX","January 2024","September 2023"

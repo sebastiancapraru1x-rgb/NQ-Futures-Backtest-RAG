@@ -1,0 +1,55 @@
+# RAG Guide: Retrieval-Augmented Generation with PyTorch
+
+## What is RAG?
+Retrieval-mented Generation (RAG) combines information retrieval with large language models. The system:
+1. **Retrieves** relevant passages from a knowledge base
+2. **Injects** them as context into an LLM prompt
+3. **Generates** answers grounded in the provided text
+
+## Why PyTorch + RAG?
+- **PyTorch**: Dynamic computation graphs, easy model debugging, full GPU support
+- **RAG**: Solves LLM hallucination, provides source citations, up-to-date knowledge
+
+## Key Components
+1. **Embedding Model**: Converts text → vectors (using sentence-transformers)
+2. **Vector Store**: FAISSST for similarity search
+3. **Retriever**: Finds top-k relevant chunks for a query
+4. **Generator**: LLM answers using retrieved context
+
+## Sample Workflow
+```python
+from ingest_documents import ingest_documents
+from embeddings import create_embembedder
+from vector_store import VectorStore
+from rag_chain import answer_question
+
+# 1. Load and chunk documents
+documents = ingest_documents("sample_documents/")
+chunks = chunk_documents(documents, chunk_size=500, overlap=50)
+
+# 2. Create embeddings
+embedder = create_embedder(model_name="all-MiniLM-L6-v2")
+embeddings = embedder.encode(chunks)
+
+# 3. Build vector store
+store = VectorStore(embeddings, chunks)
+store.save("rag_index")
+
+# 4. Ask questions
+answer = answer_question("What is RAG?", store)
+print(answer)
+```
+
+## Career Value
+Building this project demonstrates:
+- PyTorch model loading & inference
+- Vector search algorithms
+- Prompt engineering & context injection
+- System design for retrieval pipelines
+- Production-ready code structure
+
+For job interviews, you can discuss:
+- Chunking strategies (recursive, semantic, fixed-size)
+- Tradeoffs between dense retrieval (FAISSST) vs sparse (BM25)
+- Prompt engineering for QA with context
+- Hallucination mitigationmention and how RAG mitigates it
