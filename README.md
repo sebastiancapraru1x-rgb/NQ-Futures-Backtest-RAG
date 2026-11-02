@@ -58,6 +58,8 @@ rag-pytorch-project/
 │   ├── sample_backtests.csv   # Raw backtest data
 │   └── chunks.json            # Chunks + metadata after ingestion
 ├── vector_store_index/        # FAISS index (created after build_index.py)
+├── evaluation.py          # Active, label-free RAG evaluation (local embedding judge)
+├── run_eval.py            # CLI to run evaluation
 ├── ingest_documents.py        # Phase 1: CSV → chunks + metadata
 ├── embeddings.py              # Phase 2: PyTorch dense + TF-IDF sparse embeddings
 ├── vector_store.py            # Phase 3: FAISS index + search + filtering
@@ -100,6 +102,25 @@ python build_index.py
 ```bash
 python app.py
 ```
+
+## Evaluation (Active, Label-Free)
+
+No golden dataset is required. The local `all-MiniLM-L6-v2` embedding model acts as the judge.
+Run:
+
+```bash
+python run_eval.py
+# or a single query:
+python run_eval.py --query "What were the IFVG_CISD_EMA stats for 2025-2026?"
+```
+
+Metrics per query:
+- **Retrieval Confidence** (query vs. context): max/mean cosine similarity between the query and retrieved chunks.
+- **Context Dilution** (chunk vs. chunk): mean pairwise similarity among retrieved chunks (high variance = noisy context).
+- **Groundedness** (sentence vs. context): each answer sentence is embedded and checked against retrieved chunks.
+- **Abstention check**: when retrieval confidence is low, the RAG should say "I don't have enough information."
+
+Results are saved to `eval_results.json`.
 
 ## Hardware Notes
 

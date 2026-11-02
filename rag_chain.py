@@ -5,6 +5,7 @@ You can import this file WITHOUT downloading any models.
 """
 
 import os
+import numpy as np
 from typing import List, Optional, Dict
 
 # Import local modules
@@ -21,12 +22,13 @@ class RAGChain:
     4. Generate answer using an LLM (model loaded lazily)
     """
 
-    def __init__(self, vector_store_path: Optional[str] = None):
+    def __init__(self, vector_store_path: Optional[str] = None, retrieval_threshold: float = 0.35):
         self.vector_store: Optional[VectorStore] = None
         self.hybrid_embedder: Optional[HybridEmbedder] = None
         self.llm = None          # Loaded only when generate() is called
         self.tokenizer = None    # Loaded only when generate() is called
         self.vector_store_path = vector_store_path
+        self.retrieval_threshold = retrieval_threshold
 
     # ── Step A: Load vector store (no AI model download yet) ─────────────────
     def load_vector_store(self, path: str):
@@ -98,6 +100,14 @@ Answer:"""
         """
         # 1. Retrieve
         retrieved = self.retrieve(query, top_k, filter_strategy, filter_years)
+
+        # Guardrail: if retrieval confidence is low, abstain instead of hallucinating
+        if retrieved and self.hybrid_embedder is not None:
+            q_vec = self.hybrid_embedder.dense.encode_single(query)
+            doc_vecs = self.hybrid_embedder.dense.encode([r["document"] for r in retrieved])
+            sims = doc_vecs @ q_vec
+            if float(np.max(sims)) < self.retrieval_threshold:
+                return "I don't have enough information."
 
         # 2. Build prompt
         prompt = self.build_prompt(query, retrieved)
